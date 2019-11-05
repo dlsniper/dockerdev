@@ -6,9 +6,14 @@ services:
     build: ./
     ports:
       - "8000:8000"
+      - "40000:40000"
     environment:
       DD_DB_HOST: db
-    command: /server
+    security_opt:
+      - "seccomp:unconfined"
+    cap_add:
+      - SYS_PTRACE
+    command: /dlv --headless --listen=:40000 --api-version=2 exec /server
     depends_on:
       - db
   db:
