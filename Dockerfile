@@ -7,7 +7,7 @@ RUN go get github.com/go-delve/delve/cmd/dlv
 ADD . /dockerdev
 WORKDIR /dockerdev
 
-RUN go build -o /server
+RUN go build -gcflags="all=-N -l"-o /server
 
 # Final stage
 FROM debian:buster
