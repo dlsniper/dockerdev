@@ -13,7 +13,7 @@ services:
       - db
   db:
     container_name: dockerdev-db
-    image: postgres:12.0-alpine
+    image: postgres:12.2-alpine
     ports:
       - "5432:5432"
     environment:
