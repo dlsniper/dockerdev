@@ -20,6 +20,19 @@ func main() {
 
 	log.Println("starting server...")
 	http.HandleFunc("/", homeHandler(dbPool))
+	http.HandleFunc("/demo", func(w http.ResponseWriter, r *http.Request) {
+		visitorID := 0
+		err := dbPool.QueryRow(r.Context(), "INSERT INTO visitors(user_agent, datetime) VALUES ($1, now()) RETURNING id", r.UserAgent()).Scan(&visitorID)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			_, _ = w.Write([]byte("failed to update the database"))
+			log.Printf("[error] dbPool error: %v\n", err)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		_, _ = fmt.Fprintf(w, `Hello, visitor %d!`, visitorID)
+	})
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
 
