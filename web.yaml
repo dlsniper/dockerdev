@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    dockerdev: web
+  name: web
+spec:
+  selector:
+    matchLabels:
+      dockerdev: web
+  template:
+    metadata:
+      labels:
+        dockerdev: web
+    spec:
+      containers:
+        - name: dockerdev-web
+          image: dockerdev-web:latest
+          imagePullPolicy: Never
+          env:
+            - name: DD_DB_HOST
+              value: "dockerdev-db-exported"
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    dockerdev: web
+  name: dockerdev-web-exported
+spec:
+  type: NodePort
+  ports:
+    - name: 8000-tcp
+      port: 8000
+      targetPort: 8000
+      nodePort: 30800
+  selector:
+    dockerdev: web
