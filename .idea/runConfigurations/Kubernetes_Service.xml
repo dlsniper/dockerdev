@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Kubernetes Service" type="GoRemoteDebugConfigurationType" factoryName="Go Remote" port="30804">
+    <method v="2" />
+  </configuration>
+</component>
