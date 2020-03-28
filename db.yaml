@@ -37,11 +37,10 @@ spec:
           volumeMounts:
             - name: db-init
               mountPath: /docker-entrypoint-initdb.d/init.sql
-              subPath: init.sql
       volumes:
         -  name: db-init
            hostPath:
-             path: /d/GoLandProjects/dockerdev
+             path: /d/GoLandProjects/dockerdev/init.sql
 ---
 apiVersion: v1
 kind: Service
